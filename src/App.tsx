@@ -80,14 +80,11 @@ function App() {
         media_id: id,
         watchlist: addToList,
       };
-      await fetch(
-        `${API_URL}/account/${ACCOUNT_ID}/watchlist`,
-        {
-          ...options,
-          method: "POST",
-          body: JSON.stringify(body),
-        }
-      )
+      await fetch(`${API_URL}/account/${ACCOUNT_ID}/watchlist`, {
+        ...options,
+        method: "POST",
+        body: JSON.stringify(body),
+      })
         .then((res) => res.json())
         .catch((err) => console.error(err));
 
@@ -121,7 +118,7 @@ function App() {
     <>
       <h1>Movie Search</h1>
       <h2>Watchlist</h2>
-      <div>
+      <div className="grid grid-cols-6 gap-4 gap-y-8 py-4">
         {watchlist.map((movie) => (
           <MovieCard
             key={movie.id}
@@ -147,7 +144,7 @@ function App() {
         </button>
       </form>
 
-      <div>
+      <div className="grid grid-cols-6 gap-4 gap-y-8 py-4">
         {movies.map((movie) => (
           <MovieCard
             key={movie.id}
