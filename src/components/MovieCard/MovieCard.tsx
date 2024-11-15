@@ -21,14 +21,14 @@ export default function MovieCard({ movie, watchlist, addToWatchlist }: Props) {
     : "Add to watchlist";
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+    <div className="max-w-sm rounded overflow-hidden shadow hover:shadow-lg bg-white">
       <img
         className="w-full"
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         alt={movie.title}
       />
       <div className="px-6 py-4">
-        <h2 className="font-bold text-xl mb-2 text-gray-800">{movie.title}</h2>
+        <h3 className="font-bold text-xl mb-2 text-gray-800">{movie.title}</h3>
         <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
           {movie.vote_average.toFixed(1)}
         </span>
@@ -37,7 +37,7 @@ export default function MovieCard({ movie, watchlist, addToWatchlist }: Props) {
         </span>
         {addToWatchlist && (
           <button
-            className="mt-4"
+            className="btn-primary mt-4"
             onClick={() => addToWatchlist(movie.id, watchlist ? false : true)}
           >
             {watchListLabel}

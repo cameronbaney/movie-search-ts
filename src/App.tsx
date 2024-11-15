@@ -117,7 +117,7 @@ function App() {
   return (
     <>
       <h1>Movie Search</h1>
-      <h2>Watchlist</h2>
+      <h2>Your watchlist</h2>
       <div className="grid grid-cols-6 gap-4 gap-y-8 py-4">
         {watchlist.map((movie) => (
           <MovieCard

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-5 bg-emerald-700 text-white font-semibold rounded shadow-md hover:bg-emerald-800 focus:outline-none focus:ring focus:ring-emerald-400 focus:ring-opacity-75;
+  }
+}
+
+body {
+  @apply bg-slate-900 text-slate-50;
+}
+
+h1 {
+  @apply font-bold text-6xl mb-2;
+}
+
+h2 {
+  @apply font-bold text-4xl mb-2;
+}
