@@ -3,10 +3,10 @@ import "./App.css";
 
 import { type Movie } from "./types/movie";
 
+import { useWatchlist } from "./context/WatchlistContext";
 import MovieCard from "./components/MovieCard/MovieCard";
 
 const API_URL = "https://api.themoviedb.org/3";
-const ACCOUNT_ID = import.meta.env.VITE_TMDB_ACCOUNT_ID;
 const API_KEY = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN;
 
 const options = {
@@ -22,7 +22,7 @@ function App() {
   const [isSearch, setIsSearch] = useState(false);
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [watchlist, setWatchlist] = useState<Movie[]>([]);
+  const { watchlist, getWatchlist } = useWatchlist();
 
   const submitSearch = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -72,43 +72,6 @@ function App() {
     }
   };
 
-  const addToWatchlist = async (id: number, addToList = true) => {
-    console.log("add");
-    try {
-      const body = {
-        media_type: "movie",
-        media_id: id,
-        watchlist: addToList,
-      };
-      await fetch(`${API_URL}/account/${ACCOUNT_ID}/watchlist`, {
-        ...options,
-        method: "POST",
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
-
-      getWatchlist();
-    } catch (error) {
-      console.error("Error fetching movies", error);
-    }
-  };
-
-  const getWatchlist = async () => {
-    try {
-      const response = await fetch(
-        `${API_URL}/account/${ACCOUNT_ID}/watchlist/movies`,
-        options
-      )
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
-
-      setWatchlist(response.results);
-    } catch (error) {
-      console.error("Error fetching movies", error);
-    }
-  };
-
   useEffect(() => {
     getPopularMovies();
     getWatchlist();
@@ -122,12 +85,17 @@ function App() {
         <div className="mb-4 lg:mb-0">
           <h2>Your watchlist</h2>
           <div className="flex flex-col gap-y-4">
+            {!watchlist.length && (
+              <div className="flex flex-col text-center text-xl text-gray-400">
+              <span>❌</span>
+              <p className="italic">Add movies to your watchlist</p>
+              </div>
+            )}
             {watchlist.map((movie) => (
               <MovieCard
                 key={movie.id}
                 movie={movie}
-                addToWatchlist={addToWatchlist}
-                watchlist
+                isWatchlistMovie
               />
             ))}
           </div>
@@ -164,7 +132,6 @@ function App() {
               <MovieCard
                 key={movie.id}
                 movie={movie}
-                addToWatchlist={addToWatchlist}
               />
             ))}
           </div>
