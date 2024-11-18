@@ -16,28 +16,39 @@ export default function MovieCard({ movie, watchlist, addToWatchlist }: Props) {
     }
   );
 
-  const watchListLabel = watchlist
-    ? "Remove from watchlist"
-    : "Add to watchlist";
+  const watchListLabel = watchlist ? "Remove" : "Add to watchlist";
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow hover:shadow-lg bg-white">
+    <div
+      className={`flex rounded overflow-hidden shadow bg-white ${
+        watchlist ? "flex-row" : "md:flex-col"
+      }`}
+    >
       <img
-        className="w-full"
+        className={`w-28 ${watchlist ? "" : "md:w-full"}`}
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         alt={movie.title}
       />
-      <div className="px-6 py-4">
-        <h3 className="font-bold text-xl mb-2 text-gray-800">{movie.title}</h3>
-        <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
-          {movie.vote_average.toFixed(1)}
-        </span>
-        <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
-          {formattedDate}
-        </span>
+
+      <div className="px-6 py-4 flex flex-col flex-1">
+        <div className="flex-1">
+          <h3 className={`font-bold mb-2 text-lg text-gray-800 ${watchlist ? "" : "md:text-xl"}`}>
+            {movie.title}
+          </h3>
+          <div>
+            {watchlist ? null : (
+              <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                {movie.vote_average.toFixed(1)}
+              </span>
+            )}
+            <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+              {formattedDate}
+            </span>
+          </div>
+        </div>
         {addToWatchlist && (
           <button
-            className="btn-primary mt-4"
+            className={`mt-4 text-sm ${watchlist ? "btn-remove" : "btn-add md:text-base"}`}
             onClick={() => addToWatchlist(movie.id, watchlist ? false : true)}
           >
             {watchListLabel}

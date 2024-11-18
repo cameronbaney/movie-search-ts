@@ -115,45 +115,62 @@ function App() {
   }, []);
 
   return (
-    <>
-      <h1>Movie Search</h1>
-      <h2>Your watchlist</h2>
-      <div className="grid grid-cols-6 gap-4 gap-y-8 py-4">
-        {watchlist.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            addToWatchlist={addToWatchlist}
-            watchlist
-          />
-        ))}
+    <div className="md:max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
+      <h1 className="mb-8">📽️ Movie time</h1>
+
+      <div className="lg:grid lg:grid-cols-[300px_auto] lg:gap-12">
+        <div className="mb-4 lg:mb-0">
+          <h2>Your watchlist</h2>
+          <div className="flex flex-col gap-y-4">
+            {watchlist.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                addToWatchlist={addToWatchlist}
+                watchlist
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          {isSearch ? (
+            <h2>Search results for {query}</h2>
+          ) : (
+            <h2>Popular movies</h2>
+          )}
+
+          <form className="flex" onSubmit={submitSearch}>
+            <input
+              className="mr-2 p-2 flex-1 rounded text-black"
+              type="text"
+              value={query}
+              onInput={(evt) => setQuery(evt.currentTarget.value)}
+              placeholder="Search for a movie"
+            />
+            <button className="btn-primary mr-2" type="submit">
+              Search
+            </button>
+            <button
+              className="btn-primary"
+              type="button"
+              onClick={getPopularMovies}
+            >
+              Clear search
+            </button>
+          </form>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 gap-y-8 py-4">
+            {movies.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                addToWatchlist={addToWatchlist}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-
-      {isSearch ? <h2>Search results for {query}</h2> : <h2>Popular movies</h2>}
-
-      <form onSubmit={submitSearch}>
-        <input
-          type="text"
-          value={query}
-          onInput={(evt) => setQuery(evt.currentTarget.value)}
-          placeholder="Search for a movie"
-        />
-        <button type="submit">Search</button>
-        <button type="button" onClick={getPopularMovies}>
-          Clear search
-        </button>
-      </form>
-
-      <div className="grid grid-cols-6 gap-4 gap-y-8 py-4">
-        {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            addToWatchlist={addToWatchlist}
-          />
-        ))}
-      </div>
-    </>
+    </div>
   );
 }
 
