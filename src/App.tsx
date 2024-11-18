@@ -6,17 +6,7 @@ import { type Movie } from "./types/movie";
 import { useWatchlist } from "./context/WatchlistContext";
 import MovieCard from "./components/MovieCard/MovieCard";
 
-const API_URL = "https://api.themoviedb.org/3";
-const API_KEY = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN;
-
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    "content-type": "application/json",
-    Authorization: `Bearer ${API_KEY}`,
-  },
-};
+import { API_URL, FETCH_OPTIONS } from "./utils/constants";
 
 function App() {
   const [isSearch, setIsSearch] = useState(false);
@@ -42,7 +32,7 @@ function App() {
     try {
       const response = await fetch(
         `${API_URL}/search/movie?page=1&query=${query}`,
-        options
+        FETCH_OPTIONS
       )
         .then((res) => res.json())
         .catch((err) => console.error(err));
@@ -60,7 +50,7 @@ function App() {
     try {
       const response = await fetch(
         `${API_URL}/movie/popular?language=en-US&page=1`,
-        options
+        FETCH_OPTIONS
       )
         .then((res) => res.json())
         .catch((err) => console.error(err));
