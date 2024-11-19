@@ -15,7 +15,7 @@ export const DEFAULT_SEARCH_FILTERS = {
   include_adult: false,
   language: "en-US",
   original_language: "en-US",
-  certification: "G|PG",
+  certification: "G|PG|PG-13|R",
   certification_country: "US",
 };
 
