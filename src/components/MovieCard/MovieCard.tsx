@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { type Movie } from "../../types/movie";
 import { useWatchlist } from "../../context/WatchlistContext";
 
@@ -8,6 +10,7 @@ interface Props {
 
 export default function MovieCard({ movie, isWatchlistMovie }: Props) {
   const { watchlist, addToWatchlistMutation } = useWatchlist();
+  const [isPending, setIsPending] = useState(false);
 
   const formattedDate = new Date(movie.release_date).toLocaleDateString(
     "en-US",
@@ -20,6 +23,21 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
 
   const isInWatchlist = watchlist.some((m) => m.id === movie.id);
   const watchListLabel = isInWatchlist ? "Remove" : "Add to watchlist";
+
+  const handleWatchlistAction = () => {
+    setIsPending(true);
+    addToWatchlistMutation.mutate(
+      {
+        id: movie.id,
+        addToList: !isInWatchlist,
+      },
+      {
+        onSettled: () => {
+          setIsPending(false);
+        },
+      }
+    );
+  };
 
   return (
     <div
@@ -55,15 +73,11 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
         </div>
 
         <button
-          className={`mt-4 text-sm ${
-            isInWatchlist ? "btn-remove" : "btn-add md:text-base"
+          className={`mt-4 text-sm md:text-base ${
+            isInWatchlist ? "btn-remove" : "btn-add"
           }`}
-          onClick={() =>
-            addToWatchlistMutation.mutate({
-              id: movie.id,
-              addToList: isInWatchlist ? false : true,
-            })
-          }
+          onClick={handleWatchlistAction}
+          disabled={isPending}
         >
           {watchListLabel}
         </button>
