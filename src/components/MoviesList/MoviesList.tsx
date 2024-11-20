@@ -29,6 +29,13 @@ export default function MoviesList({ query, page, onPageChange }: Props) {
     queryFn: () => fetchMovies(endpoint),
   });
 
+  if (!data.results.length) {
+    return (
+      <div className="align-middle text-center p-4 text-2xl">
+        <p>No results found</p>
+      </div>
+    )
+  }
   return (
     <Suspense fallback={<p>Loading</p>}>
       <Pagination

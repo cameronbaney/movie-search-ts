@@ -23,6 +23,7 @@ function App() {
           <Watchlist />
         </div>
         <div>
+          <h2>Movies</h2>
           <form className="flex" onSubmit={handleSubmit}>
             <input
               className="mr-2 p-2 flex-1 rounded text-black"
