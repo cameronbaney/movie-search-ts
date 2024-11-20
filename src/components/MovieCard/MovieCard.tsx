@@ -3,6 +3,8 @@ import { useState } from "react";
 import { type Movie } from "../../types/movie";
 import { useWatchlist } from "../../context/WatchlistContext";
 
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
+
 interface Props {
   movie: Movie;
   isWatchlistMovie?: boolean;
@@ -79,7 +81,13 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
           onClick={handleWatchlistAction}
           disabled={isPending}
         >
-          {watchListLabel}
+          {isPending ? (
+            <div className="text-center inline-block">
+              <LoadingIcon />
+            </div>
+          ) : (
+            watchListLabel
+          )}
         </button>
       </div>
     </div>
