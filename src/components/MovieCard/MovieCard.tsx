@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function MovieCard({ movie, isWatchlistMovie }: Props) {
-  const { watchlist, addToWatchlist } = useWatchlist();
+  const { watchlist, addToWatchlistMutation } = useWatchlist();
 
   const formattedDate = new Date(movie.release_date).toLocaleDateString(
     "en-US",
@@ -58,7 +58,12 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
           className={`mt-4 text-sm ${
             isInWatchlist ? "btn-remove" : "btn-add md:text-base"
           }`}
-          onClick={() => addToWatchlist(movie.id, isInWatchlist ? false : true)}
+          onClick={() =>
+            addToWatchlistMutation.mutate({
+              id: movie.id,
+              addToList: isInWatchlist ? false : true,
+            })
+          }
         >
           {watchListLabel}
         </button>

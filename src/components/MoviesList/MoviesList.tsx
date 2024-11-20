@@ -14,9 +14,9 @@ interface Props {
 }
 
 const fetchMovies = async (url: string): Promise<Api_Response> => {
-  const res = await fetch(url, FETCH_OPTIONS);
-  if (!res.ok) throw new Error("Failed to fetch");
-  return res.json();
+  const response = await fetch(url, FETCH_OPTIONS);
+  if (!response.ok) throw new Error("Failed to fetch");
+  return response.json();
 };
 
 export default function MoviesList({ query, page, onPageChange }: Props) {

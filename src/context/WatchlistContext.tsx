@@ -1,15 +1,28 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, ReactNode } from "react";
+import {
+  useQueryClient,
+  useMutation,
+  UseMutationResult,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+
 import { type Movie } from "../types/movie";
 import { API_URL, ACCOUNT_ID, FETCH_OPTIONS } from "../utils/constants";
 
-// Define the context type
-interface WatchlistContextType {
-  watchlist: Movie[];
-  addToWatchlist: (id: number, addToList?: boolean) => Promise<void>;
-  getWatchlist: () => Promise<void>;
+interface WatchlistResponse {
+  results: Movie[];
 }
 
-// Initialize context with default values
+interface WatchlistContextType {
+  watchlist: Movie[];
+  addToWatchlistMutation: UseMutationResult<
+    any,
+    Error,
+    { id: number; addToList?: boolean }
+  >;
+  getWatchlist: () => Promise<WatchlistResponse | undefined>;
+}
+
 const WatchlistContext = createContext<WatchlistContextType | undefined>(
   undefined
 );
@@ -19,47 +32,63 @@ interface WatchlistProviderProps {
 }
 
 export const WatchlistProvider = ({ children }: WatchlistProviderProps) => {
-  const [watchlist, setWatchlist] = useState<Movie[]>([]);
+  const queryClient = useQueryClient();
 
-  const addToWatchlist = async (id: number, addToList = true) => {
-    try {
+  const addToWatchlistMutation = useMutation({
+    mutationFn: async ({
+      id,
+      addToList = true,
+    }: {
+      id: number;
+      addToList?: boolean;
+    }) => {
       const body = {
         media_type: "movie",
         media_id: id,
         watchlist: addToList,
       };
-      await fetch(`${API_URL}/account/${ACCOUNT_ID}/watchlist`, {
-        ...FETCH_OPTIONS,
-        method: "POST",
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
 
-      getWatchlist();
-    } catch (error) {
-      console.error("Error fetching movies", error);
-    }
-  };
+      const response = await fetch(
+        `${API_URL}/account/${ACCOUNT_ID}/watchlist`,
+        {
+          ...FETCH_OPTIONS,
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong.");
+      }
+      return await response.json();
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["watchlist"] }),
+  });
 
   const getWatchlist = async () => {
     try {
       const response = await fetch(
         `${API_URL}/account/${ACCOUNT_ID}/watchlist/movies`,
         FETCH_OPTIONS
-      )
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
+      );
 
-      setWatchlist(response.results || []);
+      if (!response.ok) throw new Error("Failed to fetch");
+      return response.json();
     } catch (error) {
       console.error("Error fetching movies", error);
     }
   };
 
+  const { data: watchlistResponse } = useSuspenseQuery({
+    queryKey: ["watchlist"],
+    queryFn: getWatchlist,
+  });
+
+  const watchlist = watchlistResponse?.results;
+
   return (
     <WatchlistContext.Provider
-      value={{ watchlist, addToWatchlist, getWatchlist }}
+      value={{ watchlist, addToWatchlistMutation, getWatchlist }}
     >
       {children}
     </WatchlistContext.Provider>
