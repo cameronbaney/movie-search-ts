@@ -16,7 +16,7 @@ function App() {
   };
 
   return (
-    <div className="md:max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
+    <div className="md:max-w-8xl mx-auto px-2 sm:px-6 md:px-8">
       <h1 className="mb-8">📽️ Movie time</h1>
       <div className="lg:grid lg:grid-cols-[300px_auto] lg:gap-12">
         <div className="mb-4 lg:mb-0">
@@ -24,7 +24,7 @@ function App() {
         </div>
         <div>
           <h2>Movies</h2>
-          <form className="flex" onSubmit={handleSubmit}>
+          <form className="flex flex-wrap" onSubmit={handleSubmit}>
             <input
               className="mr-2 p-2 flex-1 rounded text-black"
               type="text"
@@ -44,7 +44,7 @@ function App() {
                 setPage(1);
               }}
             >
-              Clear search
+              Clear
             </button>
           </form>
           <Suspense fallback={<div>Loading...</div>}>

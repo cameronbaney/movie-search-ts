@@ -26,11 +26,11 @@ export default function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-center space-x-2 py-4">
+    <div className="flex flex-wrap items-center justify-center space-x-2 py-4">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 border rounded ${
+        className={`px-1 py-1 border rounded lg:px-3 ${
           currentPage === 1
             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
             : "bg-white hover:bg-cyan-100 text-cyan-600"
@@ -43,7 +43,7 @@ export default function Pagination({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-3 py-1 rounded ${
+          className={`px-2 py-1 rounded flex-1 md:flex-none lg:px-3 ${
             page === currentPage
               ? "btn-primary"
               : "bg-white hover:bg-cyan-100 text-cyan-600"
@@ -56,7 +56,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 rounded ${
+        className={`px-2 py-1 rounded lg:px-3 ${
           currentPage === totalPages
             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
             : "bg-white hover:bg-cyan-100 text-cyan-600"
