@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# Movie watchlist
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+https://watchlist.cameronbaney.dev/
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Create a watchlist of all movies that you'd like to watch. You can search for a movie by title.
 
-## Expanding the ESLint configuration
+## Built with
+- [React](https://react.dev/)
+- [TanStack Query (Reacy Query)](https://tanstack.com/query/latest/docs/framework/react/overview)
+- [Vite](https://vite.dev/)
+- [TMDB API](https://developer.themoviedb.org/docs/getting-started)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Running the app locally
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Create a TDMB account, and get an [API key](https://www.themoviedb.org/settings/api).
+2. Clone this repo and create a `.env` file at the root with your API information
 ```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+VITE_TMDB_READ_ACCESS_TOKEN=
+VITE_TMDB_ACCOUNT_ID=
+```
+3. Install dependencies and start development server
+```zsh
+npm install
+npm run dev
 ```
