@@ -14,14 +14,14 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
   const { watchlist, addToWatchlistMutation } = useWatchlist();
   const [isPending, setIsPending] = useState(false);
 
-  const formattedDate = new Date(movie.release_date).toLocaleDateString(
+  const formattedDate = movie.release_date ? new Date(movie.release_date).toLocaleDateString(
     "en-US",
     {
       year: "numeric",
       month: "long",
       day: "numeric",
     }
-  );
+  ) : null;
 
   const isInWatchlist = watchlist.some((m) => m.id === movie.id);
   const watchListLabel = isInWatchlist ? "Remove" : "Add to watchlist";
@@ -41,6 +41,12 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
     );
   };
 
+  const rating = movie.vote_average?.toFixed(1);
+
+  const posterPath = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : `https://placehold.co/500x750?text=${encodeURIComponent(movie.title)}`;
+
   return (
     <div
       className={`flex rounded overflow-hidden shadow bg-white ${
@@ -49,7 +55,7 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
     >
       <img
         className={`w-28 ${isWatchlistMovie ? "" : "md:w-full"}`}
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        src={posterPath}
         alt={movie.title}
       />
 
@@ -63,14 +69,16 @@ export default function MovieCard({ movie, isWatchlistMovie }: Props) {
             {movie.title}
           </h3>
           <div>
-            {isWatchlistMovie ? null : (
+            {(!isWatchlistMovie && rating) && (
               <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
-                {movie.vote_average.toFixed(1)}
+                {rating}
               </span>
             )}
-            <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
-              {formattedDate}
-            </span>
+            {formattedDate && (
+              <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                {formattedDate}
+              </span>
+            )}
           </div>
         </div>
 
