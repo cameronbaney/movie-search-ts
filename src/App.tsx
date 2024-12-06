@@ -9,11 +9,15 @@ function App() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [page, setPage] = React.useState(1);
 
-  const handleSubmit = (evt: React.FormEvent) => {
-    evt.preventDefault();
-    setSearchQuery(inputQuery);
-    setPage(1);
-  };
+  // Debounce the search query to prevent unnecessary API calls
+  React.useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchQuery(inputQuery);
+      setPage(1);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [inputQuery]);
 
   return (
     <div className="md:max-w-8xl mx-auto px-2 sm:px-6 md:px-8">
@@ -24,29 +28,15 @@ function App() {
         </div>
         <div>
           <h2>Movies</h2>
-          <form className="flex flex-wrap" onSubmit={handleSubmit}>
+          <div className="flex flex-wrap">
             <input
               className="mr-2 p-2 flex-1 rounded text-black"
               type="text"
               value={inputQuery}
-              onChange={(e) => setInputQuery(e.target.value)}
+              onChange={(evt) => setInputQuery(evt.target.value)}
               placeholder="Search for a movie"
             />
-            <button className="btn-primary mr-2" type="submit">
-              Search
-            </button>
-            <button
-              className="btn-primary"
-              type="button"
-              onClick={() => {
-                setInputQuery("");
-                setSearchQuery("");
-                setPage(1);
-              }}
-            >
-              Clear
-            </button>
-          </form>
+          </div>
           <Suspense fallback={<div>Loading...</div>}>
             <MoviesList
               query={searchQuery}
