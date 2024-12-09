@@ -28,6 +28,10 @@ I wanted to get something created using basic concepts of React and JavaScript t
 
 Create a more extensive API utility that utilizes TanStack Query to allow to import functions like `fetchMovies()` in multiple areas of the app. This will be useful when the app scales with some of the features to add listed below.
 
+#### Testing with Vitest
+
+I've only used Jest in the past for unit tests. I wanted to try a new library, and Vitest has been getting a lot of good reviews. Overall, my experience has been positive with this compared to Jest.
+
 ### Features to add
 
 #### Advanced search
@@ -47,6 +51,9 @@ Allow for more than one list. I am using the watchlist API from TMDB, but there 
 
 #### Improve movies list loading state
 At the moment, the loading state is just a loading icon. This could be improved by creating a skeleton loader for the movie cards. This improves the UX by showing the user that the data is loading, and what the UI will look like when loaded.
+
+#### Add more tests
+For the purpose of this project, I only wrote one test, for `MovieCard`. I chose this component because it's a complex component that includes UI, mutations and loading data. Tests should be written for all other components to ensure the whole app is tested.
 
 ## Built with
 - [React](https://react.dev/)
