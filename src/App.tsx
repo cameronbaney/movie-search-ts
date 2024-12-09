@@ -30,7 +30,7 @@ function App() {
           <h2>Movies</h2>
           <div className="flex flex-wrap">
             <input
-              className="mr-2 p-2 flex-1 rounded text-black"
+              className="p-2 flex-1 rounded text-black"
               type="text"
               value={inputQuery}
               onChange={(evt) => setInputQuery(evt.target.value)}
