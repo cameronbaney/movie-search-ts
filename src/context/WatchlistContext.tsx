@@ -13,10 +13,10 @@ interface WatchlistResponse {
   results: Movie[];
 }
 
-interface WatchlistContextType {
+export interface WatchlistContextType {
   watchlist: Movie[];
   addToWatchlistMutation: UseMutationResult<
-    any,
+    { status_code: number; status_message: string },
     Error,
     { id: number; addToList?: boolean }
   >;

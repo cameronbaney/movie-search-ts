@@ -50,6 +50,8 @@ Allow for more than one list. I am using the watchlist API from TMDB, but there 
 - [TanStack Query (Reacy Query)](https://tanstack.com/query/latest/docs/framework/react/overview)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Vite](https://vite.dev/)
+- [Vitest](https://vitest.dev/)
+- [Testing Library](https://testing-library.com/)
 - [TMDB API](https://developer.themoviedb.org/docs/getting-started)
 
 ## Running the app locally
@@ -64,4 +66,18 @@ VITE_TMDB_ACCOUNT_ID=
 ```zsh
 npm install
 npm run dev
+```
+
+## Unit tests
+
+Tests were written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/).
+
+### Running tests
+```zsh
+npm run test
+```
+
+### Test coverage
+```zsh
+npm run coverage
 ```
