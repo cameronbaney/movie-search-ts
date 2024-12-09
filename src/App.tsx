@@ -3,6 +3,7 @@ import "./App.css";
 
 import MoviesList from "./components/MoviesList/MoviesList";
 import Watchlist from "./components/Watchlist/Watchlist";
+import LoadingIcon from "./components/LoadingIcon/LoadingIcon";
 
 function App() {
   const [inputQuery, setInputQuery] = React.useState("");
@@ -37,7 +38,11 @@ function App() {
               placeholder="Search for a movie"
             />
           </div>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={
+            <div className="flex justify-center items-center py-4">
+              <LoadingIcon size="lg" />
+            </div>
+          }>
             <MoviesList
               query={searchQuery}
               page={page}

@@ -45,6 +45,9 @@ Authentication to allow users to sign in and create their own watchlist. For thi
 #### Multiple lists
 Allow for more than one list. I am using the watchlist API from TMDB, but there are APIs to create additional lists. This would allow the user to create any list they want, and add a movie/show to it, such as "Action movies."
 
+#### Improve movies list loading state
+At the moment, the loading state is just a loading icon. This could be improved by creating a skeleton loader for the movie cards. This improves the UX by showing the user that the data is loading, and what the UI will look like when loaded.
+
 ## Built with
 - [React](https://react.dev/)
 - [TanStack Query (Reacy Query)](https://tanstack.com/query/latest/docs/framework/react/overview)
